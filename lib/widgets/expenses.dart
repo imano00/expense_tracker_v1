@@ -101,6 +101,8 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+
     Widget mainContent = const Center(
       child: Text('No expenses found. Start adding some'),
     );
@@ -133,100 +135,196 @@ class _ExpensesState extends State<Expenses> {
           //   ),
         ],
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: FlutterCarousel(
-              options: FlutterCarouselOptions(
-                aspectRatio: 1.2,
-                showIndicator: true,
-                slideIndicator: CircularSlideIndicator(),
-              ),
-              items: [1, 2, 3, 4].map((i) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    if (i == 1) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: const BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(16.0))),
-                        child: BarChartSample1(),
+      body: mediaQuery.size.width < 600
+          ? Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: FlutterCarousel(
+                    options: FlutterCarouselOptions(
+                      aspectRatio: 1.2,
+                      showIndicator: true,
+                      slideIndicator: CircularSlideIndicator(),
+                    ),
+                    items: [1, 2, 3, 4].map((i) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          if (i == 1) {
+                            return Container(
+                              width: MediaQuery.of(context).size.width,
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              decoration: const BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(16.0))),
+                              child: BarChartSample1(),
+                            );
+                          } else if (i == 2) {
+                            return Container(
+                              width: MediaQuery.of(context).size.width,
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              decoration: const BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(16.0))),
+                              child: PieChartSample3(
+                                  expenses:
+                                      _ExpensesState().getRegisteredExpenses()),
+                            );
+                          } else if (i == 3) {
+                            return Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(16.0))),
+                                child: Chart(
+                                  expenses: _registeredExpenses,
+                                ));
+                          } else {
+                            return Container(
+                              width: MediaQuery.of(context).size.width,
+                              margin: const EdgeInsets.only(top: 5, bottom: 30),
+                              decoration: const BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(16.0))),
+                              child: const LineChartSample1(),
+                            );
+                          }
+                        },
                       );
-                    } else if (i == 2) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: const BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(16.0))),
-                        child: PieChartSample3(
-                            expenses: _ExpensesState().getRegisteredExpenses()),
-                      );
-                    } else if (i == 3) {
-                      return Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16.0))),
-                          child: Chart(
-                            expenses: _registeredExpenses,
-                          ));
-                    } else {
-                      return Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: const EdgeInsets.only(top: 5, bottom: 30),
-                        decoration: const BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(16.0))),
-                        child: const LineChartSample1(),
-                      );
-                    }
-                  },
-                );
-              }).toList(),
-            ),
-          ),
-          const Text('Expense Category'),
-          FlutterCarousel(
-            options: FlutterCarouselOptions(
-              height: 100,
-              showIndicator: false,
-              slideIndicator: CircularSlideIndicator(),
-              indicatorMargin: 10,
-            ),
-            items: [1, 2, 3].map((i) {
-              return Builder(
-                builder: (BuildContext context) {
-                  if (i == 1) {
-                    return const Card(
-                      child: Text('Category 1'),
+                    }).toList(),
+                  ),
+                ),
+                const Text('Expense Category'),
+                FlutterCarousel(
+                  options: FlutterCarouselOptions(
+                    height: 100,
+                    showIndicator: false,
+                    slideIndicator: CircularSlideIndicator(),
+                    indicatorMargin: 10,
+                  ),
+                  items: [1, 2, 3].map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        if (i == 1) {
+                          return const Card(
+                            child: Text('Category 1'),
+                          );
+                        } else if (i == 2) {
+                          return const Card(
+                            child: Text('Category 1'),
+                          );
+                        } else {
+                          return const Card(
+                            child: Text('Category 1'),
+                          );
+                        }
+                      },
                     );
-                  } else if (i == 2) {
-                    return const Card(
-                      child: Text('Category 1'),
+                  }).toList(),
+                ),
+                const Text('Expenses List'),
+                Expanded(child: mainContent),
+              ],
+            )
+          : Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: FlutterCarousel(
+                      options: FlutterCarouselOptions(
+                        aspectRatio: 1.2,
+                        showIndicator: true,
+                        slideIndicator: CircularSlideIndicator(),
+                      ),
+                      items: [1, 2, 3, 4].map((i) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            if (i == 1) {
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(16.0))),
+                                child: BarChartSample1(),
+                              );
+                            } else if (i == 2) {
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(16.0))),
+                                child: PieChartSample3(
+                                    expenses: _ExpensesState()
+                                        .getRegisteredExpenses()),
+                              );
+                            } else if (i == 3) {
+                              return Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 5.0),
+                                  decoration: const BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(16.0))),
+                                  child: Chart(
+                                    expenses: _registeredExpenses,
+                                  ));
+                            } else {
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin:
+                                    const EdgeInsets.only(top: 5, bottom: 30),
+                                decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(16.0))),
+                                child: const LineChartSample1(),
+                              );
+                            }
+                          },
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+                const Text('Expense Category'),
+                FlutterCarousel(
+                  options: FlutterCarouselOptions(
+                    height: 100,
+                    showIndicator: false,
+                    slideIndicator: CircularSlideIndicator(),
+                    indicatorMargin: 10,
+                  ),
+                  items: [1, 2, 3].map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        if (i == 1) {
+                          return const Card(
+                            child: Text('Category 1'),
+                          );
+                        } else if (i == 2) {
+                          return const Card(
+                            child: Text('Category 1'),
+                          );
+                        } else {
+                          return const Card(
+                            child: Text('Category 1'),
+                          );
+                        }
+                      },
                     );
-                  } else {
-                    return const Card(
-                      child: Text('Category 1'),
-                    );
-                  }
-                },
-              );
-            }).toList(),
-          ),
-          const Text('Expenses List'),
-          Expanded(
-            child: ExpensesList(
-              expenses: _registeredExpenses,
-              onRemoveExpense: _removeExpense,
+                  }).toList(),
+                ),
+                const Text('Expenses List'),
+                Expanded(child: mainContent),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }
