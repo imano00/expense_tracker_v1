@@ -155,8 +155,10 @@ class _ExpensesState extends State<Expenses> {
                               margin:
                                   const EdgeInsets.symmetric(horizontal: 5.0),
                               decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(16.0))),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(16.0),
+                                ),
+                              ),
                               child: BarChartSample1(),
                             );
                           } else if (i == 2) {
